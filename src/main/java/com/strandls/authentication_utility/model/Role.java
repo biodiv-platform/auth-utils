@@ -3,13 +3,13 @@ package com.strandls.authentication_utility.model;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "role")
@@ -17,22 +17,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Role implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6401648706578439017L;
-	
+
 	@Id
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "version")
 	private Long version;
-	
+
 	@Column(name = "authority")
 	private String authority;
-	
-	//bi-directional many-to-many association to User
-	@ManyToMany(mappedBy="roles")
+
+	// bi-directional many-to-many association to User
+	@ManyToMany(mappedBy = "roles")
 	private Set<User> users;
 
 	public Long getId() {

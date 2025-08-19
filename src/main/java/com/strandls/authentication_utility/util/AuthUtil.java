@@ -7,11 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.pac4j.core.context.Pac4jConstants;
 import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.profile.definition.CommonProfileDefinition;
@@ -24,6 +19,9 @@ import org.slf4j.LoggerFactory;
 
 import com.strandls.authentication_utility.model.Role;
 import com.strandls.authentication_utility.model.User;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.HttpHeaders;
 
 public class AuthUtil {
 
@@ -127,7 +125,7 @@ public class AuthUtil {
 
 	public static Map<String, Object> generateAccessTokenFromEmail(String email) {
 		Map<String, Object> response = new HashMap<>();
-		if ( email != null && !email.isEmpty()) {
+		if (email != null && !email.isEmpty()) {
 
 			JwtGenerator<CommonProfile> generator = new JwtGenerator<>(
 					new SecretSignatureConfiguration(PropertyFileUtil.fetchProperty(CONFIGURATION, JWT_SALT)));

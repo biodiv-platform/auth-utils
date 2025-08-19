@@ -1,13 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Maven POM for authentication-utility - Java 21 (release build) - JakartaEE, 
+	Jersey 3.x, Pac4j, Hibernate, Apache POI, Jackson - Compatible with latest 
+	organization standards -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.strandls.biodiv</groupId>
 	<artifactId>authentication-utility</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.21</version>
 	<packaging>jar</packaging>
 
+	<!-- ========================= Distribution Management ========================= -->
 	<distributionManagement>
 		<repository>
 			<id>central</id>
@@ -21,32 +26,36 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<!-- ========================= Repositories ========================= -->
 	<repositories>
 		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
 			<id>central</id>
 			<name>libs-release</name>
 			<url>https://devartifactory.indiabiodiversity.org/libs-release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 		<repository>
-			<snapshots />
 			<id>snapshots</id>
 			<name>libs-snapshot</name>
 			<url>https://devartifactory.indiabiodiversity.org/libs-snapshot</url>
+			<snapshots />
 		</repository>
 	</repositories>
 
+	<!-- ========================= Properties ========================= -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<org.pac4j.version>3.7.0</org.pac4j.version>
 		<jax-rs-pac4j.version>2.3.0</jax-rs-pac4j.version>
 	</properties>
 
+	<!-- ========================= Dependencies ========================= -->
 	<dependencies>
+		<!-- pac4j for authentication -->
 		<dependency>
 			<groupId>org.pac4j</groupId>
 			<artifactId>pac4j-core</artifactId>
@@ -61,111 +70,119 @@
 			<groupId>org.pac4j</groupId>
 			<artifactId>jax-rs-pac4j</artifactId>
 			<version>${jax-rs-pac4j.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
-		<dependency>
-			<groupId>aopalliance</groupId>
-			<artifactId>aopalliance</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.inject</groupId>
+					<artifactId>javax.inject</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
+		<!-- Dependency injection (Jakarta) -->
+		<dependency>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<!-- Jakarta WS RS (REST API) -->
+		<dependency>
+			<groupId>jakarta.ws.rs</groupId>
+			<artifactId>jakarta.ws.rs-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<!-- Jersey 3.x Stack -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
-			<version>2.31</version>
+			<version>3.1.1</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet-core -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet-core</artifactId>
-			<version>2.31</version>
+			<version>3.1.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
-			<version>2.31</version>
+			<version>3.1.1</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.glassfish.hk2/guice-bridge -->
-		<dependency>
-			<groupId>org.glassfish.hk2</groupId>
-			<artifactId>guice-bridge</artifactId>
-			<version>2.6.1</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+		<!-- Guice for advanced DI -->
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-			<version>4.2.3</version>
+			<version>7.0.0</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.google.inject.extensions/guice-servlet -->
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-servlet</artifactId>
-			<version>4.2.3</version>
+			<version>7.0.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax/javaee-web-api -->
+		<!-- JAXB (Jakarta, Java 21 compatibility) -->
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-			<version>8.0.1</version>
-			<scope>provided</scope>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>4.0.2</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
+		<!-- JSON support -->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.31</version>
+			<version>3.1.1</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>2.11.0</version>
-		</dependency>
-				
-		<dependency>
-		    <groupId>com.sun.xml.bind</groupId>
-		    <artifactId>jaxb-core</artifactId>
-		    <version>2.3.0.1</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.17.1</version>
 		</dependency>
 
-		<dependency>
-		    <groupId>com.sun.xml.bind</groupId>
-		    <artifactId>jaxb-impl</artifactId>
-		    <version>2.3.1</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<!-- Hibernate ORM -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.4.24.Final</version>
+			<version>6.4.4.Final</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+
+		<!-- Apache POI for Excel/Office integration -->
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>4.1.2</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.5</version>
 		</dependency>
-				
 
-
-
+		<!-- Jakarta Servlet (provided for containers) -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Optionally, include the broader JakartaEE Web API if needed -->
+		<!-- <dependency> <groupId>jakarta.platform</groupId> <artifactId>jakarta.jakartaee-web-api</artifactId> 
+			<version>10.0.0</version> <scope>provided</scope> </dependency> -->
 	</dependencies>
+
+	<!-- ========================= Build Plugins ========================= -->
+	<build>
+		<plugins>
+			<!-- Java 21 build configuration -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<release>21</release>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

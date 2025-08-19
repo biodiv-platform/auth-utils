@@ -8,8 +8,9 @@ import org.slf4j.LoggerFactory;
 public class PropertyFileUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyFileUtil.class);
-	
-	private PropertyFileUtil() {}
+
+	private PropertyFileUtil() {
+	}
 
 	public static String fetchProperty(String fileName, String propertyName) {
 		Properties properties = new Properties();

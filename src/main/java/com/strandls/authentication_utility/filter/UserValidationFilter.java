@@ -6,12 +6,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.pac4j.core.profile.CommonProfile;
@@ -20,13 +14,19 @@ import org.pac4j.jwt.credentials.authenticator.JwtAuthenticator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+
 public class UserValidationFilter implements MethodInterceptor {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserValidationFilter.class);
-	
+
 	public static final JwtAuthenticator jwtAuthenticator;
 	public static final String JWT_SALT;
-	
+
 	static {
 		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
 		Properties properties = new Properties();
@@ -46,11 +46,12 @@ public class UserValidationFilter implements MethodInterceptor {
 		if (!method.isAnnotationPresent(ValidateUser.class)) {
 			invocation.proceed();
 		}
-		
+
 		int parameterIndex = getRequestParameterIndex(method);
 		if (parameterIndex == -1)
-			return Response.status(Status.NOT_ACCEPTABLE).entity("Api end-point should have request as parameter").build();
-		
+			return Response.status(Status.NOT_ACCEPTABLE).entity("Api end-point should have request as parameter")
+					.build();
+
 		// Extract the request out of method using parameter index.
 		HttpServletRequest request = (HttpServletRequest) invocation.getArguments()[parameterIndex];
 		String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -66,7 +67,7 @@ public class UserValidationFilter implements MethodInterceptor {
 		}
 		return invocation.proceed();
 	}
-	
+
 	private int getRequestParameterIndex(Method method) {
 		int i = 0;
 		for (Parameter parameter : method.getParameters()) {

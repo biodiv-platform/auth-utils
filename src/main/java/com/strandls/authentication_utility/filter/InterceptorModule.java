@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.strandls.authentication_utility.filter;
 
@@ -14,7 +14,7 @@ public class InterceptorModule extends AbstractBinder {
 
 	@Override
 	protected void configure() {
-		bind(ValidateInterceptor.class).to(InterceptionService.class).in(javax.inject.Singleton.class);
+		bind(ValidateInterceptor.class).to(InterceptionService.class).in(jakarta.inject.Singleton.class);
 	}
 
 }
